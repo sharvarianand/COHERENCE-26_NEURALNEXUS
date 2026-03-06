@@ -35,13 +35,13 @@ export default function Navbar() {
             alignItems: "center",
             padding: "0 1.5rem 0 2rem",
             height: "4rem",
-            background: "rgba(245, 241, 237, 0.82)",
+            background: "rgba(0, 0, 0, 0.85)",
             backdropFilter: "blur(20px) saturate(180%)",
             WebkitBackdropFilter: "blur(20px) saturate(180%)",
             borderRadius: "100px",
-            border: "1px solid rgba(255, 122, 48, 0.22)",
-            borderTop: "1px solid rgba(255, 255, 255, 0.75)",
-            boxShadow: "0 16px 35px -18px rgba(52, 70, 105, 0.36), inset 0 1px 1px rgba(255, 255, 255, 0.55)",
+            border: "1px solid rgba(215, 35, 35, 0.22)",
+            borderTop: "1px solid rgba(245, 237, 237, 0.10)",
+            boxShadow: "0 16px 35px -18px rgba(0, 0, 0, 0.50), inset 0 1px 1px rgba(245, 237, 237, 0.08)",
             opacity: 0,
          }}
       >

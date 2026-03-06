@@ -392,7 +392,7 @@ function GhostVisual() {
                padding: "1rem 1.25rem",
                borderRadius: "12px",
                background: "var(--accent-secondary-glow)",
-               border: "1px solid rgba(70, 92, 136, 0.22)",
+               border: "1px solid rgba(245, 237, 237, 0.15)",
             }}
          >
             <p style={{ fontSize: "0.8rem", color: "var(--accent-secondary)", fontWeight: 600, marginBottom: "0.3rem" }}>

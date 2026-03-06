@@ -16,37 +16,33 @@ Add these to `globals.css` as CSS custom properties:
 ```css
 :root {
   /* Backgrounds */
-  --bg-base:       #E9E3DF;   /* near-black warm */
-  --bg-surface:    #141009;   /* dark warm surface */
-  --bg-card:       #1C1710;   /* card background */
-  --bg-elevated:   #252017;   /* elevated card / hover */
-  --bg-border:     #2E2719;   /* subtle borders */
+  --bg-base:       #000000;   /* base background */
+  --bg-surface:    #3E3636;   /* section surfaces */
+  --bg-card:       #3E3636;   /* card background */
+  --bg-elevated:   #4A4040;   /* elevated card / hover */
+  --bg-border:     rgba(245, 237, 237, 0.15);   /* subtle borders */
 
-  /* Accent — Amber/Gold (primary) */
-  --accent-primary:    #FF7A30;
-  --accent-primary-dim: #B45309;
-  --accent-primary-glow: rgba(255, 122, 48, 0.15);
+  /* Accent — Red (primary) */
+  --accent-primary:      #D72323;
+  --accent-primary-dim:  #A91B1B;
+  --accent-primary-glow: rgba(215, 35, 35, 0.15);
 
-  /* Accent — Coral/Rose (secondary) */
-  --accent-secondary:       #465C88;
-  --accent-secondary-dim:   #9F1239;
-  --accent-secondary-glow:  rgba(70, 92, 136, 0.12);
-
-  /* Accent — Lime (health/safety scores) */
-  --accent-secondary:       #465C88;
-  --accent-secondary-dim:   #4D7C0F;
+  /* Accent — Light Pink (secondary) */
+  --accent-secondary:       #F5EDED;
+  --accent-secondary-dim:   #D4C5C5;
+  --accent-secondary-glow:  rgba(245, 237, 237, 0.10);
 
   /* Text */
-  --text-primary:   #FDF4E7;   /* warm cream */
-  --text-secondary: #A89880;   /* muted warm */
-  --text-tertiary:  #5C5043;   /* very muted */
+  --text-primary:   #F5EDED;
+  --text-secondary: rgba(245, 237, 237, 0.65);
+  --text-tertiary:  rgba(245, 237, 237, 0.35);
 
   /* Gradients */
   --gradient-hero: radial-gradient(ellipse 80% 60% at 50% -10%,
-                   rgba(245,158,11,0.18) 0%, transparent 70%);
+                   rgba(215, 35, 35, 0.20) 0%, rgba(62, 54, 54, 0.30) 45%, transparent 70%);
   --gradient-card: linear-gradient(135deg,
-                   rgba(245,158,11,0.06) 0%, rgba(244,63,94,0.04) 100%);
-  --gradient-text: linear-gradient(135deg, #FF7A30 0%, #465C88 100%);
+                   rgba(215, 35, 35, 0.09) 0%, rgba(245, 237, 237, 0.05) 100%);
+  --gradient-text: linear-gradient(135deg, #D72323 0%, #F5EDED 100%);
 }
 Typography: Use Inter (body) and Cal Sans or Syne (headings) from Google Fonts.
 Base font size 16px. Headings use tight tracking (letter-spacing: -0.03em).
@@ -77,7 +73,7 @@ File: Navbar.tsx
 
 Fixed top navbar, position: fixed, z-index: 100.
 Background: var(--bg-base) with border-bottom: 1px solid var(--bg-border).
-Add backdrop-filter: blur(12px) and background: rgba(13,11,9,0.85).
+Add backdrop-filter: blur(12px) and background: rgba(0, 0, 0, 0.85).
 
 Layout: flex justify-between items-center px-8 h-16
 
@@ -109,7 +105,7 @@ Badge chip at top:
 text
 [ ◈ AI-Powered Outreach ]
 Pill shape, background var(--accent-primary-glow),
-border 1px solid rgba(245,158,11,0.3), text var(--accent-primary) 12px.
+border 1px solid rgba(215, 35, 35, 0.3), text var(--accent-primary) 12px.
 GSAP: from { opacity:0, y:20 } → appear, delay 0.3.
 
 H1 heading (two lines, large ~72px, tight tracking):
@@ -614,8 +610,8 @@ not innerText manipulation directly
 DO NOT
 Do not use any shade of blue, purple, navy, or indigo anywhere
 
-Do not use pure white (#ffffff) or pure black (#000000) — use the warm
-equivalents from the token system above
+Do not use pure white (#ffffff); pure black (#000000) is allowed as the base
+token in this dark palette
 
 Do not install GSAP or Lenis — they are already set up
 
@@ -628,4 +624,4 @@ text
 
 ***
 
-This prompt covers every section with pixel-level specs, the exact GSAP + Lenis integration pattern, the warm amber/rose/lime palette (zero blues or purples), all 5 feature visuals as pure CSS/HTML (no image files needed), and responsive breakpoint handling. The `WorkflowVisual` on the hero mirrors the Claude "Cowork" layout from your reference screenshot  — live pipeline card on the right, big tagline on the left. Paste this into Cline and it will scaffold the full page in one shot.[1][2]
+This prompt covers every section with pixel-level specs, the exact GSAP + Lenis integration pattern, the dark black/brown/red/light-pink palette (zero blues or purples), all 5 feature visuals as pure CSS/HTML (no image files needed), and responsive breakpoint handling. The `WorkflowVisual` on the hero mirrors the Claude "Cowork" layout from your reference screenshot  — live pipeline card on the right, big tagline on the left. Paste this into Cline and it will scaffold the full page in one shot.[1][2]

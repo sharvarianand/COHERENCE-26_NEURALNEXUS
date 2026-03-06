@@ -20,7 +20,7 @@ export default function ScrollCard({
    description,
    image,
    index,
-   color = "#DED8D3",
+   color = "#3E3636",
 }: ScrollCardProps) {
    const cardRef = useRef<HTMLDivElement>(null);
 
@@ -39,7 +39,7 @@ export default function ScrollCard({
             backgroundColor: color,
             minWidth: 0,
             borderRadius: "40px",
-            boxShadow: "0 20px 50px rgba(0, 0, 0, 0.12)",
+            boxShadow: "0 20px 50px rgba(0, 0, 0, 0.30)",
          }}
       >
          {/* Image Container — Top 70% */}
@@ -97,9 +97,9 @@ export default function ScrollCard({
                      fontSize: "0.8rem",
                      fontWeight: 500,
                      padding: "0.35rem 1rem",
-                     border: "1px solid rgba(0, 0, 0, 0.25)",
+                     border: "1px solid rgba(245, 237, 237, 0.25)",
                      borderRadius: "50px",
-                     color: "var(--charcoal)",
+                     color: "var(--cream)",
                      letterSpacing: "0.05em",
                      flexShrink: 0,
                   }}
@@ -115,7 +115,7 @@ export default function ScrollCard({
                      fontWeight: 600,
                      letterSpacing: "0.12em",
                      textTransform: "uppercase",
-                     color: "var(--charcoal)",
+                     color: "var(--cream)",
                      opacity: 0.7,
                      flexShrink: 0,
                   }}
@@ -130,7 +130,7 @@ export default function ScrollCard({
                      fontSize: "0.75rem",
                      fontWeight: 400,
                      lineHeight: 1.4,
-                     color: "var(--charcoal)",
+                     color: "var(--cream)",
                      opacity: 0.6,
                      textAlign: "right",
                      maxWidth: "280px",
@@ -158,7 +158,7 @@ export default function ScrollCard({
                      fontWeight: 400,
                      lineHeight: 1.0,
                      letterSpacing: "-0.03em",
-                     color: "var(--charcoal)",
+                     color: "var(--cream)",
                      margin: 0,
                   }}
                >
@@ -171,7 +171,7 @@ export default function ScrollCard({
                      width: "50px",
                      height: "50px",
                      borderRadius: "50%",
-                     border: "1px solid rgba(0, 0, 0, 0.25)",
+                     border: "1px solid rgba(245, 237, 237, 0.25)",
                      backgroundColor: "transparent",
                      cursor: "pointer",
                      display: "flex",
@@ -180,17 +180,17 @@ export default function ScrollCard({
                      flexShrink: 0,
                      transition: "background-color 0.3s ease, border-color 0.3s ease",
                   }}
-                  onMouseEnter={(e) => {
-                     e.currentTarget.style.backgroundColor = "var(--charcoal)";
-                     e.currentTarget.style.borderColor = "var(--charcoal)";
+                     onMouseEnter={(e) => {
+                     e.currentTarget.style.backgroundColor = "var(--cream)";
+                     e.currentTarget.style.borderColor = "var(--cream)";
                      const svg = e.currentTarget.querySelector("svg");
-                     if (svg) svg.style.color = "var(--cream)";
+                     if (svg) svg.style.color = "var(--charcoal)";
                   }}
                   onMouseLeave={(e) => {
                      e.currentTarget.style.backgroundColor = "transparent";
-                     e.currentTarget.style.borderColor = "rgba(0, 0, 0, 0.25)";
+                     e.currentTarget.style.borderColor = "rgba(245, 237, 237, 0.25)";
                      const svg = e.currentTarget.querySelector("svg");
-                     if (svg) svg.style.color = "var(--charcoal)";
+                     if (svg) svg.style.color = "var(--cream)";
                   }}
                >
                   <svg
@@ -198,7 +198,7 @@ export default function ScrollCard({
                      height="18"
                      viewBox="0 0 18 18"
                      fill="none"
-                     style={{ color: "var(--charcoal)", transition: "color 0.3s ease" }}
+                     style={{ color: "var(--cream)", transition: "color 0.3s ease" }}
                   >
                      <path
                         d="M5 13L13 5M13 5H6M13 5V12"
@@ -224,7 +224,7 @@ export default function ScrollCard({
                      fontFamily: "var(--font-heading)",
                      fontSize: "0.75rem",
                      fontWeight: 500,
-                     color: "var(--charcoal)",
+                     color: "var(--cream)",
                      opacity: 0.5,
                   }}
                >
