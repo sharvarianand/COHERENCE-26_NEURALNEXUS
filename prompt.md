@@ -16,25 +16,25 @@ Add these to `globals.css` as CSS custom properties:
 ```css
 :root {
   /* Backgrounds */
-  --bg-base:       #0D0B09;   /* near-black warm */
+  --bg-base:       #E9E3DF;   /* near-black warm */
   --bg-surface:    #141009;   /* dark warm surface */
   --bg-card:       #1C1710;   /* card background */
   --bg-elevated:   #252017;   /* elevated card / hover */
   --bg-border:     #2E2719;   /* subtle borders */
 
   /* Accent — Amber/Gold (primary) */
-  --accent-primary:    #F59E0B;
+  --accent-primary:    #FF7A30;
   --accent-primary-dim: #B45309;
-  --accent-primary-glow: rgba(245, 158, 11, 0.15);
+  --accent-primary-glow: rgba(255, 122, 48, 0.15);
 
   /* Accent — Coral/Rose (secondary) */
-  --accent-rose:       #F43F5E;
-  --accent-rose-dim:   #9F1239;
-  --accent-rose-glow:  rgba(244, 63, 94, 0.12);
+  --accent-secondary:       #465C88;
+  --accent-secondary-dim:   #9F1239;
+  --accent-secondary-glow:  rgba(70, 92, 136, 0.12);
 
   /* Accent — Lime (health/safety scores) */
-  --accent-lime:       #84CC16;
-  --accent-lime-dim:   #4D7C0F;
+  --accent-secondary:       #465C88;
+  --accent-secondary-dim:   #4D7C0F;
 
   /* Text */
   --text-primary:   #FDF4E7;   /* warm cream */
@@ -46,7 +46,7 @@ Add these to `globals.css` as CSS custom properties:
                    rgba(245,158,11,0.18) 0%, transparent 70%);
   --gradient-card: linear-gradient(135deg,
                    rgba(245,158,11,0.06) 0%, rgba(244,63,94,0.04) 100%);
-  --gradient-text: linear-gradient(135deg, #F59E0B 0%, #F43F5E 100%);
+  --gradient-text: linear-gradient(135deg, #FF7A30 0%, #465C88 100%);
 }
 Typography: Use Inter (body) and Cal Sans or Syne (headings) from Google Fonts.
 Base font size 16px. Headings use tight tracking (letter-spacing: -0.03em).
@@ -179,7 +179,7 @@ text
 👤 Human Handoff Score    [ ▓▓▓▓▓░ 68/100 ]
 Color logic:
 
-Done badges: var(--accent-lime) bg at 10% opacity, lime text
+Done badges: var(--accent-secondary) bg at 10% opacity, secondary text
 
 Active badge: amber var(--accent-primary-glow) bg, amber text
 
@@ -337,7 +337,7 @@ const features = [
            they actually think. Dominant types get ROI-first directness. 
            Steady types get empathy and no pressure.`,
     tag: "Crystal · DISC Profiles",
-    accent: "var(--accent-rose)",
+    accent: "var(--accent-secondary)",
     visual: "persona",
   },
   {
@@ -361,7 +361,7 @@ const features = [
            a completely new re-engagement strategy with a different hook, 
            tone, and approach.`,
     tag: "AI Silence Analysis",
-    accent: "var(--accent-rose)",
+    accent: "var(--accent-secondary)",
     visual: "ghost",
   },
   {
@@ -373,7 +373,7 @@ const features = [
            personality summary, email thread digest, top 3 predicted 
            objections with responses, and a recommended opening line.`,
     tag: "Readiness Score · Call Brief",
-    accent: "var(--accent-lime)",
+    accent: "var(--accent-secondary)",
     visual: "handoff",
   },
 ];

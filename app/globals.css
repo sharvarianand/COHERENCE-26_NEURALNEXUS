@@ -7,39 +7,40 @@
 @layer base {
   :root {
     /* Backgrounds */
-    --bg-base: #0D0B09;
-    --bg-surface: #141009;
-    --bg-card: #1C1710;
-    --bg-elevated: #252017;
-    --bg-border: #2E2719;
+    --bg-base: #E9E3DF;
+    --bg-surface: #DED8D3;
+    --bg-card: #F5F1ED;
+    --bg-elevated: #FFFFFF;
+    --bg-border: #C9C1BA;
 
-    /* Accent — Amber/Gold (primary) */
-    --accent-primary: #F59E0B;
-    --accent-primary-dim: #B45309;
-    --accent-primary-glow: rgba(245, 158, 11, 0.15);
+    /* Accent — Orange (primary) */
+    --accent-primary: #FF7A30;
+    --accent-primary-dim: #D9601A;
+    --accent-primary-glow: rgba(255, 122, 48, 0.15);
 
-    /* Accent — Coral/Rose (secondary) */
-    --accent-rose: #F43F5E;
-    --accent-rose-dim: #9F1239;
-    --accent-rose-glow: rgba(244, 63, 94, 0.12);
-
-    /* Accent — Lime (health/safety scores) */
-    --accent-lime: #84CC16;
-    --accent-lime-dim: #4D7C0F;
+    /* Accent — Slate Blue (secondary) */
+    --accent-secondary: #465C88;
+    --accent-secondary-dim: #344669;
+    --accent-secondary-glow: rgba(70, 92, 136, 0.12);
 
     /* Text */
-    --text-primary: #FDF4E7;
-    --text-secondary: #A89880;
-    --text-tertiary: #5C5043;
+    --text-primary: #000000;
+    --text-secondary: #465C88;
+    --text-tertiary: rgba(0, 0, 0, 0.35);
+
+    /* Compatibility tokens used by horizontal cards */
+    --cream: #E9E3DF;
+    --charcoal: #000000;
 
     /* Gradients */
     --gradient-hero: radial-gradient(ellipse 80% 60% at 50% -10%,
-        rgba(245, 158, 11, 0.18) 0%,
+        rgba(255, 122, 48, 0.16) 0%,
+        rgba(70, 92, 136, 0.08) 45%,
         transparent 70%);
     --gradient-card: linear-gradient(135deg,
-        rgba(245, 158, 11, 0.06) 0%,
-        rgba(244, 63, 94, 0.04) 100%);
-    --gradient-text: linear-gradient(135deg, #F59E0B 0%, #F43F5E 100%);
+        rgba(255, 122, 48, 0.09) 0%,
+        rgba(70, 92, 136, 0.08) 100%);
+    --gradient-text: linear-gradient(135deg, #FF7A30 0%, #465C88 100%);
 
     /* Font stacks (set by next/font) */
     --font-body: var(--font-inter), system-ui, sans-serif;
@@ -117,7 +118,7 @@
   gap: 0.5rem;
   padding: 0.35rem 1rem;
   border-radius: 50px;
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  border: 1px solid rgba(255, 122, 48, 0.28);
   background: var(--accent-primary-glow);
   color: var(--accent-primary);
   font-size: 0.75rem;
@@ -144,5 +145,5 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-tertiary);
+  background: var(--accent-secondary);
 }

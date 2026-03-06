@@ -197,8 +197,8 @@ function CampaignBrainVisual() {
 function PersonaVisual() {
    const quads = [
       { label: "D", desc: "Short · Direct · ROI-first", color: "var(--accent-primary)" },
-      { label: "I", desc: "Warm · Story-driven", color: "var(--accent-rose)" },
-      { label: "S", desc: "Empathetic · Low-pressure", color: "var(--accent-lime)" },
+      { label: "I", desc: "Warm · Story-driven", color: "var(--accent-secondary)" },
+      { label: "S", desc: "Empathetic · Low-pressure", color: "var(--accent-secondary-dim)" },
       { label: "C", desc: "Data-heavy · Structured", color: "var(--accent-primary-dim)" },
    ];
 
@@ -391,11 +391,11 @@ function GhostVisual() {
             style={{
                padding: "1rem 1.25rem",
                borderRadius: "12px",
-               background: "var(--accent-rose-glow)",
-               border: "1px solid rgba(244, 63, 94, 0.2)",
+               background: "var(--accent-secondary-glow)",
+               border: "1px solid rgba(70, 92, 136, 0.22)",
             }}
          >
-            <p style={{ fontSize: "0.8rem", color: "var(--accent-rose)", fontWeight: 600, marginBottom: "0.3rem" }}>
+            <p style={{ fontSize: "0.8rem", color: "var(--accent-secondary)", fontWeight: 600, marginBottom: "0.3rem" }}>
                Ghost detected · Tone mismatch
             </p>
             <p style={{ fontSize: "0.75rem", color: "var(--text-secondary)", marginBottom: "0.75rem" }}>
@@ -407,7 +407,7 @@ function GhostVisual() {
                   padding: "0.35rem 1rem",
                   borderRadius: "50px",
                   background: "var(--accent-primary)",
-                  color: "var(--bg-base)",
+                  color: "var(--text-primary)",
                   fontSize: "0.75rem",
                   fontWeight: 600,
                }}
@@ -506,7 +506,7 @@ function HandoffVisual() {
                      padding: "0.4rem 0.8rem",
                      borderRadius: "8px",
                      background: "var(--accent-primary)",
-                     color: "var(--bg-base)",
+                     color: "var(--text-primary)",
                      fontSize: "0.75rem",
                      fontWeight: 600,
                   }}

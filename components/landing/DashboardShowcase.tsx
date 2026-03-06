@@ -10,15 +10,15 @@ if (typeof window !== "undefined") {
 
 const kpis = [
    { label: "Emails Sent", value: "247", color: "var(--accent-primary)" },
-   { label: "Replies", value: "31", color: "var(--accent-rose)" },
-   { label: "Reply Rate", value: "12.6%", color: "var(--accent-lime)" },
+   { label: "Replies", value: "31", color: "var(--accent-secondary)" },
+   { label: "Reply Rate", value: "12.6%", color: "var(--accent-secondary-dim)" },
    { label: "In Handoff", value: "4", color: "var(--accent-primary)" },
 ];
 
 const leads = [
-   { initials: "PS", name: "Priya Sharma", company: "FinStack", score: 82, status: "Ready to Call", statusColor: "var(--accent-lime)" },
-   { initials: "AK", name: "Arjun Kapoor", company: "DataPulse", score: 65, status: "Warming Up", statusColor: "var(--accent-primary)" },
-   { initials: "MG", name: "Meera Gupta", company: "CloudNine", score: 71, status: "Ready to Call", statusColor: "var(--accent-lime)" },
+   { initials: "PS", name: "Priya Sharma", company: "FinStack", score: 82, status: "Ready to Call", statusColor: "var(--accent-secondary)", statusBg: "var(--accent-secondary-glow)" },
+   { initials: "AK", name: "Arjun Kapoor", company: "DataPulse", score: 65, status: "Warming Up", statusColor: "var(--accent-primary)", statusBg: "var(--accent-primary-glow)" },
+   { initials: "MG", name: "Meera Gupta", company: "CloudNine", score: 71, status: "Ready to Call", statusColor: "var(--accent-secondary)", statusBg: "var(--accent-secondary-glow)" },
 ];
 
 export default function DashboardShowcase() {
@@ -302,7 +302,7 @@ export default function DashboardShowcase() {
                                  width: `${lead.score}%`,
                                  height: "100%",
                                  borderRadius: "3px",
-                                 background: "linear-gradient(90deg, var(--accent-primary), var(--accent-rose))",
+                                 background: "linear-gradient(90deg, var(--accent-primary), var(--accent-secondary))",
                               }}
                            />
                         </div>
@@ -313,10 +313,7 @@ export default function DashboardShowcase() {
                               fontWeight: 600,
                               padding: "0.15rem 0.5rem",
                               borderRadius: "4px",
-                              background:
-                                 lead.statusColor === "var(--accent-lime)"
-                                    ? "rgba(132, 204, 22, 0.1)"
-                                    : "var(--accent-primary-glow)",
+                              background: lead.statusBg,
                               color: lead.statusColor,
                               whiteSpace: "nowrap",
                            }}

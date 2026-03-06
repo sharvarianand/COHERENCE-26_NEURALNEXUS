@@ -158,7 +158,7 @@ export default function HeroSection() {
                      style={{
                         padding: "1.1rem 2.8rem",
                         background: "var(--accent-primary)",
-                        color: "var(--bg-base)",
+                        color: "var(--text-primary)",
                         borderRadius: "50px",
                         fontSize: "1.05rem",
                         fontWeight: 750,

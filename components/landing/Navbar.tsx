@@ -35,13 +35,13 @@ export default function Navbar() {
             alignItems: "center",
             padding: "0 1.5rem 0 2rem",
             height: "4rem",
-            background: "rgba(13, 11, 9, 0.7)",
+            background: "rgba(245, 241, 237, 0.82)",
             backdropFilter: "blur(20px) saturate(180%)",
             WebkitBackdropFilter: "blur(20px) saturate(180%)",
             borderRadius: "100px",
-            border: "1px solid rgba(245, 158, 11, 0.2)",
-            borderTop: "1px solid rgba(255, 255, 255, 0.15)",
-            boxShadow: "0 20px 40px -15px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.05)",
+            border: "1px solid rgba(255, 122, 48, 0.22)",
+            borderTop: "1px solid rgba(255, 255, 255, 0.75)",
+            boxShadow: "0 16px 35px -18px rgba(52, 70, 105, 0.36), inset 0 1px 1px rgba(255, 255, 255, 0.55)",
             opacity: 0,
          }}
       >
@@ -109,7 +109,7 @@ export default function Navbar() {
             }}
             onMouseEnter={(e) => {
                e.currentTarget.style.background = "var(--accent-primary)";
-               e.currentTarget.style.color = "var(--bg-base)";
+               e.currentTarget.style.color = "var(--text-primary)";
             }}
             onMouseLeave={(e) => {
                e.currentTarget.style.background = "transparent";

@@ -25,7 +25,7 @@ const features = [
       subtitle: "Every message shaped by personality, not templates.",
       body: "Rosey enriches each lead with Crystal personality data — D, I, S, or C type — and writes messages that match how they actually think.",
       tag: "Crystal · DISC Profiles",
-      accent: "var(--accent-rose)",
+      accent: "var(--accent-secondary)",
       visual: "persona" as const,
    },
    {
@@ -43,7 +43,7 @@ const features = [
       subtitle: "Silence isn't the end. It's a signal.",
       body: "When a lead goes dark, Rosey diagnoses why — bad timing, tone mismatch, spam filters — and generates a completely new re-engagement strategy.",
       tag: "AI Silence Analysis",
-      accent: "var(--accent-rose)",
+      accent: "var(--accent-secondary)",
       visual: "ghost" as const,
    },
    {
@@ -52,7 +52,7 @@ const features = [
       subtitle: "When it's time for a human, they can't possibly fail.",
       body: "When a lead's readiness score crosses 70, Rosey hands off with a complete AI call brief — personality summary, objections, and recommended opener.",
       tag: "Readiness Score · Call Brief",
-      accent: "var(--accent-lime)",
+      accent: "var(--accent-secondary)",
       visual: "handoff" as const,
    },
 ];

@@ -57,7 +57,7 @@ export default function ContactSection() {
                width: "60%",
                height: "60%",
                background:
-                  "radial-gradient(ellipse at center, rgba(245,158,11,0.12) 0%, transparent 70%)",
+                  "radial-gradient(ellipse at center, rgba(255, 122, 48, 0.12) 0%, transparent 70%)",
                pointerEvents: "none",
             }}
          />
@@ -127,7 +127,7 @@ export default function ContactSection() {
                onFocus={(e) => {
                   e.currentTarget.style.borderColor = "var(--accent-primary)";
                   e.currentTarget.style.boxShadow =
-                     "0 0 0 2px rgba(245, 158, 11, 0.25)";
+                     "0 0 0 2px rgba(255, 122, 48, 0.25)";
                }}
                onBlur={(e) => {
                   e.currentTarget.style.borderColor = "var(--bg-border)";
@@ -139,7 +139,7 @@ export default function ContactSection() {
                style={{
                   padding: "0.85rem 1.5rem",
                   background: "var(--accent-primary)",
-                  color: "var(--bg-base)",
+                  color: "var(--text-primary)",
                   borderRadius: "12px",
                   fontSize: "0.95rem",
                   fontWeight: 600,

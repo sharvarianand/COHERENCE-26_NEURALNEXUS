@@ -20,7 +20,7 @@ export default function ScrollCard({
    description,
    image,
    index,
-   color = "#b8c5b2",
+   color = "#DED8D3",
 }: ScrollCardProps) {
    const cardRef = useRef<HTMLDivElement>(null);
 

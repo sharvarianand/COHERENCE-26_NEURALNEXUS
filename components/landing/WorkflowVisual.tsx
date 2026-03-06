@@ -41,7 +41,7 @@ export default function WorkflowVisual() {
             style={{
                width: "100%",
                maxWidth: "480px",
-               boxShadow: "0 25px 60px rgba(0,0,0,0.4)",
+               boxShadow: "0 24px 54px rgba(52, 70, 105, 0.26)",
                borderRadius: "24px",
                overflow: "hidden",
                border: "1px solid var(--bg-border)",
