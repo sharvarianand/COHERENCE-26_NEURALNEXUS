@@ -9,7 +9,7 @@ interface CandidateLead {
   id: string;
   thread_id: string | null;
   status: string;
-  lead: { email: string | null } | null;
+  lead: { email: string | null }[] | null;
 }
 
 export async function syncCampaignReplyStatus(
@@ -37,7 +37,8 @@ export async function syncCampaignReplyStatus(
   const waitingIds: string[] = [];
 
   for (const candidate of candidates as CandidateLead[]) {
-    if (!candidate.thread_id || !candidate.lead?.email) {
+    const leadEmail = candidate.lead?.[0]?.email;
+    if (!candidate.thread_id || !leadEmail) {
       nonMatchedIds.push(candidate.id);
       continue;
     }
@@ -45,7 +46,7 @@ export async function syncCampaignReplyStatus(
       const hasReply = await hasThreadReceivedReply(
         candidate.thread_id,
         senderEmail,
-        candidate.lead.email
+        leadEmail
       );
       if (hasReply) {
         matchedIds.push(candidate.id);

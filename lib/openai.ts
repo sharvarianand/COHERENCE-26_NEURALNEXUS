@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import type { Lead, EnrichedLeadData } from "@/types";
+import type { Lead, EnrichedLeadData, ResearchResult } from "@/types";
 
 const openai = new OpenAI({
   apiKey: process.env.AZURE_OPENAI_API_KEY,
@@ -21,7 +21,7 @@ export async function generateMessage(
   prompt: string,
   lead: Lead | null,
   productDescription?: string,
-  options?: { senderEmail?: string; isFollowUp?: boolean; enrichedData?: EnrichedLeadData | null }
+  options?: { senderEmail?: string; isFollowUp?: boolean; enrichedData?: EnrichedLeadData | null; researchData?: ResearchResult | null }
 ): Promise<{ subject: string; body: string }> {
   const effectivePrompt = lead
     ? prompt
@@ -40,6 +40,7 @@ export async function generateMessage(
   const senderEmail = options?.senderEmail;
   const isFollowUp = options?.isFollowUp ?? false;
   const enrichedData = options?.enrichedData;
+  const researchData = options?.researchData;
 
   const enrichmentInstruction = enrichedData && enrichedData.personalization_hooks.length > 0
     ? `\n\nEnriched lead intelligence (scraped from the web — use these to make the email feel personal and deeply researched):\n` +
@@ -50,6 +51,17 @@ export async function generateMessage(
       (enrichedData.pain_points?.length ? `- Likely pain points: ${enrichedData.pain_points.join(", ")}\n` : "") +
       `- Personalization hooks to weave in: ${enrichedData.personalization_hooks.join(" | ")}\n` +
       `Reference 1-2 of these hooks naturally — do NOT list them verbatim. Make the email feel like you did your homework.`
+    : "";
+
+  const researchInstruction = researchData &&
+    (researchData.talking_points.length > 0 || researchData.pain_points.length > 0)
+    ? `\n\nDeep research intelligence (from web search — use to make the email highly relevant):\n` +
+      (researchData.company_overview ? `- Company overview: ${researchData.company_overview}\n` : "") +
+      (researchData.recent_news?.length ? `- Recent news: ${researchData.recent_news.join("; ")}\n` : "") +
+      (researchData.pain_points?.length ? `- Pain points: ${researchData.pain_points.join(", ")}\n` : "") +
+      (researchData.talking_points?.length ? `- Talking points: ${researchData.talking_points.join(" | ")}\n` : "") +
+      (researchData.competitive_landscape ? `- Competitive context: ${researchData.competitive_landscape}\n` : "") +
+      `Weave 1-2 of these research insights naturally into the email.`
     : "";
 
   const senderInstruction = senderEmail
@@ -73,7 +85,8 @@ export async function generateMessage(
           "Based on the user's instructions, generate both a subject line and an email body. " +
           'Respond with JSON: {"subject": "...", "body": "<html>...</html>"}. ' +
           "The body must be valid HTML suitable for email. Keep it concise (3-5 sentences)." +
-          enrichmentInstruction,
+          enrichmentInstruction +
+          researchInstruction,
       },
       {
         role: "user",

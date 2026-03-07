@@ -20,6 +20,17 @@ export interface EnrichedLeadData {
   scraped_at: string;
 }
 
+export interface ResearchResult {
+  company_overview: string | null;
+  industry_challenges: string[];
+  recent_news: string[];
+  competitive_landscape: string | null;
+  pain_points: string[];
+  talking_points: string[];
+  sources: string[];
+  researched_at: string;
+}
+
 export interface Lead {
   id: string;
   product_id: string;
@@ -29,6 +40,7 @@ export interface Lead {
   industry: string | null;
   tags: string[];
   enriched_data: EnrichedLeadData | null;
+  research_result: ResearchResult | null;
   custom_fields: Record<string, unknown> | null;
   created_at: string;
 }
@@ -99,6 +111,8 @@ export interface WorkflowNode {
     | "condition"
     | "checkReply"
     | "sendFollowup"
+    | "research"
+    | "researchLead"
     | "end";
   position: { x: number; y: number };
   data: Record<string, unknown>;

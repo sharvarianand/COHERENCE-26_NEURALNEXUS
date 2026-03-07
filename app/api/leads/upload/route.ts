@@ -61,15 +61,15 @@ export async function POST(request: NextRequest) {
 
     const lower = (s: string) => s.toLowerCase().trim();
     leadsToInsert = strRows
-      .map((row) => {
+      .flatMap((row) => {
         const email = row[emailCol]?.trim();
-        if (!email || !email.includes("@")) return null;
+        if (!email || !email.includes("@")) return [];
         const name = resolveName(row, nameCol, headers) || email;
         const companyCol = headers.find((h) => lower(h) === "company");
         const industryCol = headers.find((h) => lower(h) === "industry");
         const tagsCol = headers.find((h) => lower(h) === "tags");
         const rawTags = tagsCol ? row[tagsCol] ?? "" : "";
-        return {
+        return [{
           product_id: productId,
           name,
           email,
@@ -79,9 +79,8 @@ export async function POST(request: NextRequest) {
             ? String(rawTags).split(",").map((t) => t.trim()).filter(Boolean)
             : [],
           custom_fields: row,
-        } satisfies LeadInsert;
-      })
-      .filter((r): r is LeadInsert => r !== null);
+        } satisfies LeadInsert];
+      });
   } else {
     // CSV path — accept any column structure
     let rows: Record<string, string>[];
@@ -112,15 +111,15 @@ export async function POST(request: NextRequest) {
 
     const lower = (s: string) => s.toLowerCase().trim();
     leadsToInsert = rows
-      .map((row) => {
+      .flatMap((row) => {
         const email = row[emailCol]?.trim();
-        if (!email || !email.includes("@")) return null;
+        if (!email || !email.includes("@")) return [];
         const name = resolveName(row, nameCol, headers) || email;
         const companyCol = headers.find((h) => lower(h) === "company");
         const industryCol = headers.find((h) => lower(h) === "industry");
         const tagsCol = headers.find((h) => lower(h) === "tags");
         const rawTags = tagsCol ? row[tagsCol] ?? "" : "";
-        return {
+        return [{
           product_id: productId,
           name,
           email,
@@ -131,9 +130,8 @@ export async function POST(request: NextRequest) {
             .map((t) => t.trim())
             .filter(Boolean),
           custom_fields: row,
-        } satisfies LeadInsert;
-      })
-      .filter((r): r is LeadInsert => r !== null);
+        } satisfies LeadInsert];
+      });
   }
 
   if (leadsToInsert.length === 0) {

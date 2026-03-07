@@ -33,7 +33,7 @@ import { LeadsPanel } from "@/components/campaign/leads-panel";
 import { InboxPanel } from "@/components/campaign/inbox-panel";
 import {
   Save, Play, StopCircle, Loader2, BarChart3, Users, Mail, Clock,
-  GitBranch, Square, ChevronLeft, Workflow, Inbox, Gauge, RefreshCw,
+  GitBranch, Square, ChevronLeft, Workflow, Inbox, Gauge, RefreshCw, Search,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
@@ -47,6 +47,7 @@ type View = "workflow" | "leads" | "analytics" | "inbox";
 const nodeItems = [
   { type: "start", label: "Start", icon: Play, color: "text-green-600 bg-green-100" },
   { type: "send_email", label: "Send Email", icon: Mail, color: "text-blue-600 bg-blue-100" },
+  { type: "research", label: "Research Lead", icon: Search, color: "text-emerald-600 bg-emerald-100" },
   { type: "wait", label: "Wait / Delay", icon: Clock, color: "text-amber-600 bg-amber-100" },
   { type: "condition", label: "If / Else", icon: GitBranch, color: "text-purple-600 bg-purple-100" },
   { type: "end", label: "End", icon: Square, color: "text-red-600 bg-red-100" },

@@ -1,10 +1,11 @@
 "use client";
 
-import { Play, Mail, Clock, GitBranch, Square } from "lucide-react";
+import { Play, Mail, Clock, GitBranch, Square, Search } from "lucide-react";
 
 const nodeItems = [
   { type: "start", label: "Start", icon: Play, color: "text-green-600 bg-green-100" },
   { type: "send_email", label: "Send Email", icon: Mail, color: "text-blue-600 bg-blue-100" },
+  { type: "research", label: "Research Lead", icon: Search, color: "text-emerald-600 bg-emerald-100" },
   { type: "wait", label: "Wait / Delay", icon: Clock, color: "text-amber-600 bg-amber-100" },
   { type: "condition", label: "If / Else", icon: GitBranch, color: "text-purple-600 bg-purple-100" },
   { type: "end", label: "End", icon: Square, color: "text-red-600 bg-red-100" },

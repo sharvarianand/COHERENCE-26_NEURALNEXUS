@@ -46,6 +46,7 @@ export const useWorkflowStore = create<WorkflowState>((set, get) => ({
     const defaultData: Record<string, Record<string, unknown>> = {
       start: {},
       send_email: { prompt: "", mode: "personalized" },
+      research: {},
       wait: { duration: 1, unit: "days" },
       condition: { check: "replied" },
       end: {},

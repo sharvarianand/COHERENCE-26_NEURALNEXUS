@@ -237,6 +237,7 @@ const campaignHandlers: WorkflowHandlers<CampaignExecutionContext> = {
           senderEmail: process.env.GMAIL_USER_EMAIL,
           isFollowUp: !!threadId,
           enrichedData: context.lead.enriched_data ?? null,
+          researchData: context.lead.research_result ?? null,
         });
         node.data.cached_subject = message.subject;
         node.data.cached_body = message.body;
@@ -263,6 +264,7 @@ const campaignHandlers: WorkflowHandlers<CampaignExecutionContext> = {
         senderEmail: process.env.GMAIL_USER_EMAIL,
         isFollowUp: !!threadId,
         enrichedData: context.lead.enriched_data ?? null,
+        researchData: context.lead.research_result ?? null,
       });
       subject = threadSubject || message.subject;
       htmlBody = message.body;
@@ -368,6 +370,27 @@ const campaignHandlers: WorkflowHandlers<CampaignExecutionContext> = {
     });
 
     return { branch };
+  },
+
+  research: async (_node, context) => {
+    const { researchLead } = await import("@/lib/research");
+
+    const research = await researchLead(context.lead);
+
+    // Persist research_result on the lead record
+    await context.supabase
+      .from("leads")
+      .update({ research_result: research })
+      .eq("id", context.lead.id);
+
+    // Make it available in context for downstream nodes
+    context.lead.research_result = research;
+
+    await logAction(context.supabase, context.campaignLead.id, "research", "success", {
+      sources_count: research.sources.length,
+      pain_points_count: research.pain_points.length,
+      talking_points_count: research.talking_points.length,
+    });
   },
 
   end: async (_node, context) => {
@@ -496,10 +519,12 @@ async function sweepRepliedLeads(
   for (const cl of waitingLeads) {
     if (!cl.thread_id) continue;
     try {
+      const leadArr = cl.lead as { email: string }[] | null;
+      const leadEmail = leadArr?.[0]?.email;
       const hasReply = await hasThreadReceivedReply(
         cl.thread_id,
         senderEmail,
-        cl.lead?.email
+        leadEmail
       );
       if (hasReply) {
         // Mark as replied and accelerate — set next_action_time to now so the
