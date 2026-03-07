@@ -6,7 +6,8 @@ export type NormalizedWorkflowNodeType =
   | "wait"
   | "condition"
   | "end"
-  | "research";
+  | "research"
+  | "human_review";
 
 export interface ParsedWorkflowNode extends WorkflowNode {
   normalizedType: NormalizedWorkflowNodeType;
@@ -69,6 +70,9 @@ export function normalizeNodeType(type: string): NormalizedWorkflowNodeType {
     case "research":
     case "researchLead":
       return "research";
+    case "human_review":
+    case "humanReview":
+      return "human_review";
     default:
       throw new Error(`Unsupported workflow node type: ${type}`);
   }

@@ -47,6 +47,7 @@ export const useWorkflowStore = create<WorkflowState>((set, get) => ({
       start: {},
       send_email: { prompt: "", mode: "personalized" },
       research: {},
+      human_review: {},
       wait: { duration: 1, unit: "days" },
       condition: { check: "replied" },
       end: {},

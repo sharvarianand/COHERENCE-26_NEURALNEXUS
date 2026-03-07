@@ -393,6 +393,23 @@ const campaignHandlers: WorkflowHandlers<CampaignExecutionContext> = {
     });
   },
 
+  human_review: async (_node, context) => {
+    // Park the lead in pending_review — a human must approve or skip via the review API
+    await context.supabase
+      .from("campaign_leads")
+      .update({
+        status: "pending_review",
+        last_action_time: new Date().toISOString(),
+      })
+      .eq("id", context.campaignLead.id);
+
+    await logAction(context.supabase, context.campaignLead.id, "human_review", "pending", {
+      research_available: !!context.lead.research_result,
+    });
+
+    return { stop: true };
+  },
+
   end: async (_node, context) => {
     await logAction(context.supabase, context.campaignLead.id, "end", "success");
     return { stop: true };
@@ -448,6 +465,17 @@ async function processCampaignLead(
         next_action_time: outcome.waitUntil,
         last_action_time: lastActionTime,
       })
+      .eq("id", campaignLead.id);
+    return outcome.steps;
+  }
+
+  // If the handler already parked the lead (e.g. human_review → pending_review),
+  // only persist the current_node_id so the workflow can resume from here later.
+  const stoppedNode = parsedWorkflow.nodesById.get(outcome.currentNodeId);
+  if (stoppedNode?.normalizedType === "human_review") {
+    await supabase
+      .from("campaign_leads")
+      .update({ current_node_id: outcome.currentNodeId })
       .eq("id", campaignLead.id);
     return outcome.steps;
   }
@@ -693,7 +721,7 @@ export async function processActiveCampaigns(): Promise<{
       .from("campaign_leads")
       .select("id")
       .eq("campaign_id", campaign.id)
-      .in("status", ["queued", "waiting", "active"]);
+      .in("status", ["queued", "waiting", "active", "pending_review"]);
 
     if (!remainingLeads?.length) {
       await supabase

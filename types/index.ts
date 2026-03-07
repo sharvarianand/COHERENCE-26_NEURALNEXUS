@@ -63,7 +63,7 @@ export interface CampaignLead {
   campaign_id: string;
   lead_id: string;
   current_node_id: string;
-  status: "queued" | "waiting" | "active" | "completed" | "failed";
+  status: "queued" | "waiting" | "active" | "completed" | "failed" | "pending_review";
   followup_count: number;
   last_action_time: string | null;
   next_action_time: string;
@@ -113,6 +113,8 @@ export interface WorkflowNode {
     | "sendFollowup"
     | "research"
     | "researchLead"
+    | "human_review"
+    | "humanReview"
     | "end";
   position: { x: number; y: number };
   data: Record<string, unknown>;

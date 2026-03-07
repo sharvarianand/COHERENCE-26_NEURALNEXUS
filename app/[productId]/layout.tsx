@@ -1,14 +1,23 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useParams, usePathname } from "next/navigation";
-import { ProductSelector } from "@/components/product-selector";
-import { CampaignSelector } from "@/components/campaign-selector";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Separator } from "@/components/ui/separator";
 import { Users, Megaphone } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+
+const ProductSelector = dynamic(
+  () => import("@/components/product-selector").then((m) => m.ProductSelector),
+  { ssr: false }
+);
+
+const CampaignSelector = dynamic(
+  () => import("@/components/campaign-selector").then((m) => m.CampaignSelector),
+  { ssr: false }
+);
 
 const navItems = [
   { label: "Campaigns", href: "/campaigns", icon: Megaphone },

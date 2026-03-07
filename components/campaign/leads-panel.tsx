@@ -22,9 +22,9 @@ import {
 } from "@/components/ui/dialog";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { LeadsTable } from "@/components/leads/leads-table";
-import { UserPlus, Loader2, Zap, Upload, FileText, CheckCircle2 } from "lucide-react";
+import { UserPlus, Loader2, Zap, Upload, FileText, CheckCircle2, UserCheck, SkipForward, ChevronDown, ChevronUp } from "lucide-react";
 import { toast } from "sonner";
-import type { Lead, CampaignLead } from "@/types";
+import type { Lead, CampaignLead, ResearchResult } from "@/types";
 
 interface LeadsPanelProps {
   campaignId: string;
@@ -37,6 +37,7 @@ const statusColors: Record<string, string> = {
   active: "bg-blue-100 text-blue-700",
   completed: "bg-green-100 text-green-700",
   failed: "bg-red-100 text-red-700",
+  pending_review: "bg-orange-100 text-orange-700",
 };
 
 // ─── Upload tab ──────────────────────────────────────────────────────────────
@@ -284,6 +285,199 @@ function ManualTab({
   );
 }
 
+// ─── Review Queue ─────────────────────────────────────────────────────────────
+function ReviewQueue({
+  leads,
+  onAction,
+}: {
+  leads: CampaignLead[];
+  onAction: () => void;
+}) {
+  const [loadingIds, setLoadingIds] = useState<Set<string>>(new Set());
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
+  const [bulkLoading, setBulkLoading] = useState(false);
+
+  function toggleExpanded(id: string) {
+    setExpandedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
+  async function handleReview(clId: string, action: "approve" | "skip") {
+    setLoadingIds((prev) => new Set(prev).add(clId));
+    try {
+      const res = await fetch(`/api/campaign-leads/${clId}/review`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error ?? "Review failed");
+      }
+      toast.success(action === "approve" ? "Lead approved — workflow will resume" : "Lead skipped");
+      onAction();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Review failed");
+    } finally {
+      setLoadingIds((prev) => { const n = new Set(prev); n.delete(clId); return n; });
+    }
+  }
+
+  async function handleBulkAction(action: "approve" | "skip") {
+    setBulkLoading(true);
+    let succeeded = 0;
+    for (const cl of leads) {
+      try {
+        const res = await fetch(`/api/campaign-leads/${cl.id}/review`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action }),
+        });
+        if (res.ok) succeeded++;
+      } catch { /* skip failures */ }
+    }
+    toast.success(`${action === "approve" ? "Approved" : "Skipped"} ${succeeded} lead${succeeded !== 1 ? "s" : ""}`);
+    setBulkLoading(false);
+    onAction();
+  }
+
+  if (leads.length === 0) return null;
+
+  return (
+    <div className="mb-6 rounded-lg border border-orange-200 bg-orange-50/50">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-orange-200">
+        <div className="flex items-center gap-2">
+          <UserCheck className="h-4 w-4 text-orange-600" />
+          <h3 className="font-semibold text-sm">Pending Review</h3>
+          <Badge className="bg-orange-100 text-orange-700 text-xs" variant="secondary">
+            {leads.length}
+          </Badge>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button
+            size="sm"
+            variant="outline"
+            disabled={bulkLoading}
+            onClick={() => handleBulkAction("skip")}
+            className="text-xs h-7"
+          >
+            {bulkLoading ? <Loader2 className="h-3 w-3 mr-1 animate-spin" /> : <SkipForward className="h-3 w-3 mr-1" />}
+            Skip All
+          </Button>
+          <Button
+            size="sm"
+            disabled={bulkLoading}
+            onClick={() => handleBulkAction("approve")}
+            className="text-xs h-7"
+          >
+            {bulkLoading ? <Loader2 className="h-3 w-3 mr-1 animate-spin" /> : <UserCheck className="h-3 w-3 mr-1" />}
+            Approve All
+          </Button>
+        </div>
+      </div>
+      <div className="divide-y divide-orange-100">
+        {leads.map((cl) => {
+          const lead = cl.lead;
+          const research = lead?.research_result as ResearchResult | null;
+          const isExpanded = expandedIds.has(cl.id);
+          const isLoading = loadingIds.has(cl.id);
+
+          return (
+            <div key={cl.id} className="px-4 py-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3 min-w-0">
+                  <button
+                    onClick={() => toggleExpanded(cl.id)}
+                    className="text-muted-foreground hover:text-foreground shrink-0"
+                  >
+                    {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                  </button>
+                  <div className="min-w-0">
+                    <p className="font-medium text-sm truncate">{lead?.name || "—"}</p>
+                    <p className="text-xs text-muted-foreground truncate">
+                      {lead?.email} {lead?.company ? `· ${lead.company}` : ""}
+                    </p>
+                  </div>
+                  {research && (research.talking_points.length > 0 || research.pain_points.length > 0) && (
+                    <Badge variant="outline" className="text-xs shrink-0">Research available</Badge>
+                  )}
+                </div>
+                <div className="flex items-center gap-2 shrink-0 ml-3">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    disabled={isLoading}
+                    onClick={() => handleReview(cl.id, "skip")}
+                    className="text-xs h-7"
+                  >
+                    <SkipForward className="h-3 w-3 mr-1" />
+                    Skip
+                  </Button>
+                  <Button
+                    size="sm"
+                    disabled={isLoading}
+                    onClick={() => handleReview(cl.id, "approve")}
+                    className="text-xs h-7"
+                  >
+                    {isLoading ? <Loader2 className="h-3 w-3 mr-1 animate-spin" /> : <UserCheck className="h-3 w-3 mr-1" />}
+                    Approve
+                  </Button>
+                </div>
+              </div>
+              {isExpanded && research && (
+                <div className="mt-3 ml-7 space-y-2 text-xs">
+                  {research.company_overview && (
+                    <div>
+                      <p className="font-semibold text-muted-foreground uppercase tracking-wider mb-0.5">Company</p>
+                      <p>{research.company_overview}</p>
+                    </div>
+                  )}
+                  {research.talking_points.length > 0 && (
+                    <div>
+                      <p className="font-semibold text-muted-foreground uppercase tracking-wider mb-0.5">Talking Points</p>
+                      <ul className="list-disc list-inside space-y-0.5">
+                        {research.talking_points.map((tp, i) => <li key={i}>{tp}</li>)}
+                      </ul>
+                    </div>
+                  )}
+                  {research.pain_points.length > 0 && (
+                    <div>
+                      <p className="font-semibold text-muted-foreground uppercase tracking-wider mb-0.5">Pain Points</p>
+                      <ul className="list-disc list-inside space-y-0.5">
+                        {research.pain_points.map((pp, i) => <li key={i}>{pp}</li>)}
+                      </ul>
+                    </div>
+                  )}
+                  {research.recent_news.length > 0 && (
+                    <div>
+                      <p className="font-semibold text-muted-foreground uppercase tracking-wider mb-0.5">Recent News</p>
+                      <ul className="list-disc list-inside space-y-0.5">
+                        {research.recent_news.map((n, i) => <li key={i}>{n}</li>)}
+                      </ul>
+                    </div>
+                  )}
+                  {!research.company_overview && research.talking_points.length === 0 && research.pain_points.length === 0 && (
+                    <p className="text-muted-foreground italic">No research data available for this lead.</p>
+                  )}
+                </div>
+              )}
+              {isExpanded && !research && (
+                <div className="mt-3 ml-7 text-xs text-muted-foreground italic">
+                  No research data available for this lead.
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 // ─── Main panel ───────────────────────────────────────────────────────────────
 export function LeadsPanel({ campaignId, productId }: LeadsPanelProps) {
   const [campaignLeads, setCampaignLeads] = useState<CampaignLead[]>([]);
@@ -388,6 +582,7 @@ export function LeadsPanel({ campaignId, productId }: LeadsPanelProps) {
 
   const assignedLeadIds = new Set(campaignLeads.map((cl) => cl.lead_id));
   const unassignedLeads = allLeads.filter((l) => !assignedLeadIds.has(l.id));
+  const pendingReviewLeads = campaignLeads.filter((cl) => cl.status === "pending_review");
 
   if (loading) {
     return (
@@ -495,6 +690,8 @@ export function LeadsPanel({ campaignId, productId }: LeadsPanelProps) {
           </Dialog>
         </div>
       </div>
+
+      <ReviewQueue leads={pendingReviewLeads} onAction={fetchCampaignLeads} />
 
       <div className="rounded-md border">
         <Table>
